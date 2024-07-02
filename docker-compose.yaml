@@ -11,6 +11,16 @@ services:
       - /Users/rogeriotadim/git-projects/github/rogeriotadim/pos-goexpert/lab-leilao/src:/app
     networks:
       - lab-leilao
+
+  db:
+    image: mongo
+    container_name: mongo-db
+    restart: no
+    ports:
+      - 27017
+    networks:
+      - lab-leilao
+
 networks:
   lab-leilao:
     driver: bridge
