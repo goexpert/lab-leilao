@@ -2,6 +2,8 @@ package rest_err
 
 import (
 	"net/http"
+
+	"github.com/goexpert/lab-leilao/internal/internal_error"
 )
 
 type RestErr struct {
@@ -18,6 +20,17 @@ type Causes struct {
 
 func (r *RestErr) Error() string {
 	return r.Message
+}
+
+func ConvertError(internalError *internal_error.InternalError) *RestErr {
+	switch internalError.Err {
+	case "bad_request":
+		return NewBadRequestError(internalError.Error())
+	case "not_found":
+		return NewNotFoundError(internalError.Error())
+	default:
+		return NewInternalServerError(internalError.Error())
+	}
 }
 
 func NewBadRequestError(message string, causes ...Causes) *RestErr {
